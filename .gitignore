@@ -11,3 +11,6 @@ result
 .turbo/
 .next/
 lovely-docs/
+
+.envrc
+.direnv/
