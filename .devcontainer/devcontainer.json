@@ -1,0 +1,48 @@
+{
+  "name": "${localWorkspaceFolderBasename} — Nix Dev Environment",
+  "build": {
+    "context": ".",
+    "dockerfile": "Dockerfile"
+  },
+
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+
+  "mounts": ["source=lunarhue-containers-nix-store,target=/nix,type=volume"],
+
+  "remoteEnv": {
+    "NIX_CONFIG": "experimental-features = nix-command flakes\nbuild-users-group ="
+  },
+  "updateRemoteUserUID": false,
+
+  "features": {
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      "username": "vscode",
+      "userUid": "1000",
+      "userGid": "1000",
+      "installZsh": false,
+      "installOhMyZsh": false,
+      "configureZshAsDefaultShell": false
+    },
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "version": "latest",
+      "moby": "false"
+    }
+  },
+
+  "postCreateCommand": "bash .devcontainer/create.sh",
+  "postStartCommand": "bash .devcontainer/start.sh",
+
+  "customizations": {
+    "vscode": {
+      "extensions": ["mkhl.direnv", "jnoortheen.nix-ide", "golang.go"],
+      "settings": {
+        "go.useLanguageServer": true,
+        "go.toolsManagement.checkForUpdates": "off",
+        "go.toolsManagement.autoUpdate": false
+      }
+    }
+  },
+
+  "remoteUser": "vscode"
+}
